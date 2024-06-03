@@ -10,9 +10,10 @@ public class Main {
 
         UserAnalyzer userAnalyzer = new UserAnalyzer(users);
         userAnalyzer.printUserList(users);
-        userAnalyzer.printUserCounts();
+        userAnalyzer.getGenderCounts(users);
         userAnalyzer.printUserAgeGreaterThan(25);
         userAnalyzer.printAverageSalary();
-        userAnalyzer.printWomenWithPhoneNumberCount();
+        userAnalyzer.getCountOfWomenWithValidPhoneNumbers(users);
+        userAnalyzer.displayUsersWithInvalidData(users);
     }
 }

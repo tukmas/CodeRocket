@@ -35,12 +35,11 @@ public class TextFileReader {
     private User createUserFromData(String[] userData) {
         long id = generateId();
         String fullName = getFieldValue(userData, 0);
-        String gender = getFieldValue(userData, 1);
-        LocalDate dateOfBirth = getLocalDateFieldValue(userData, 2, "dd.MM.yyyy");
-        String phoneNumber = getFieldValue(userData, 3);
-        int wage = getIntFieldValue(userData, 4, 0);
+        LocalDate dateOfBirth = getLocalDateFieldValue(userData, 1, "dd.MM.yyyy");
+        String phoneNumber = getPhoneNumberFieldValue(userData, 2);
+        int salary = getIntFieldValue(userData, 3, 0);
 
-        return new User(id, fullName, gender, dateOfBirth, phoneNumber, wage);
+        return new User(id, fullName, dateOfBirth, phoneNumber, salary);
     }
 
     public static long generateId() {
@@ -60,7 +59,13 @@ public class TextFileReader {
         }
         return null;
     }
-
+    public String getPhoneNumberFieldValue(String[] data, int index) {
+        if (index >= 0 && index < data.length) {
+            String fieldValue = data[index].replaceAll("[^\\d]", "");
+            return fieldValue;
+        }
+        return "";
+    }
     public static int getIntFieldValue(String[] data, int index, int defaultValue) {
         if (index >= 0 && index < data.length) {
             try {

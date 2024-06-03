@@ -13,13 +13,12 @@ public class UserAnalyzer {
     public void printUserList(List<User> userList) {
         userList.stream().forEach(System.out::println);
     }
-    public void printUserCounts() {
+    public void getGenderCounts(List<User> users) {
         long maleCount = users.stream()
-                .filter(user -> user.getGender().equals("муж"))
+                .filter(user -> user.getFullName().endsWith("ович") || user.getFullName().endsWith("ич"))
                 .count();
-        long femaleCount = users.stream()
-                .filter(user -> user.getGender().equals("жен"))
-                .count();
+
+        long femaleCount = users.size() - maleCount;
 
         System.out.println("Количество мужчин: " + maleCount);
         System.out.println("Количество женщин: " + femaleCount);
@@ -42,12 +41,41 @@ public class UserAnalyzer {
         System.out.println("Средняя заработанная плата: " + averageSalary);
     }
 
-    public void printWomenWithPhoneNumberCount() {
-        long countWomenWithPhoneNumber = users.stream()
-                .filter(user -> user.getGender().equals("жен"))
-                .filter(user -> user.getPhoneNumber() != null && !user.getPhoneNumber().isEmpty())
+    public static void getCountOfWomenWithValidPhoneNumbers(List<User> users) {
+        long count = users.stream()
+                .filter(user -> (user.getFullName().endsWith("ова") || user.getFullName().endsWith("евна") || user.getFullName().endsWith("овна"))
+                        && (user.getPhoneNumber().matches("9\\d{9}") || user.getPhoneNumber().matches("[78]\\d{10}")))
                 .count();
 
-        System.out.println("Количество женщин с номером телефона: " + countWomenWithPhoneNumber);
+        System.out.println("Количество женщин с валидным номером телефона: " + count);
+    }
+    public void displayUsersWithInvalidData(List<User> users) {
+        for (User user : users) {
+            boolean isValid = true;
+
+            if (user.getFullName().isEmpty()) {
+                System.out.println("Пользователь " + user.getFullName() + " с ID " + user.getId() + " имеет пустое поле ФИО");
+                isValid = false;
+            }
+
+            if (user.getDateOfBirth() == null) {
+                System.out.println("Пользователь " + user.getFullName() + " с ID " + user.getId() + " имеет неверный формат даты рождения");
+                isValid = false;
+            }
+
+            if (!user.getPhoneNumber().matches("9\\d{9}") && !user.getPhoneNumber().matches("[78]\\d{10}")) {
+                System.out.println("Пользователь " + user.getFullName() + " с ID " + user.getId() + " имеет некорректный номер телефона");
+                isValid = false;
+            }
+
+            if (user.getSalary() <= 0) {
+                System.out.println("Пользователь " + user.getFullName() + " с ID " + user.getId() + " имеет неверное значение заработной платы");
+                isValid = false;
+            }
+
+            if (!isValid) {
+                System.out.println("=====================");
+            }
+        }
     }
 }

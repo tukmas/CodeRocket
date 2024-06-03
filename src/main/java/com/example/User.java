@@ -6,22 +6,28 @@ import java.util.Objects;
 public class User {
     private long id;
     private String fullName;
-    private String gender;
     private LocalDate dateOfBirth;
     private String phoneNumber;
     private int salary;
 
-    public User(long id, String fullName, String gender, LocalDate dateOfBirth, String phoneNumber, int wage) {
+    public User(long id, String fullName, LocalDate dateOfBirth, String phoneNumber, int wage) {
         this.id = id;
         this.fullName = fullName;
-        this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.salary = wage;
     }
 
-    public String getGender() {
-        return gender;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     public LocalDate getDateOfBirth() {
@@ -41,12 +47,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && salary == user.salary && Objects.equals(fullName, user.fullName) && Objects.equals(gender, user.gender) && Objects.equals(dateOfBirth, user.dateOfBirth) && Objects.equals(phoneNumber, user.phoneNumber);
+        return id == user.id && salary == user.salary && Objects.equals(fullName, user.fullName) && Objects.equals(dateOfBirth, user.dateOfBirth) && Objects.equals(phoneNumber, user.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fullName, gender, dateOfBirth, phoneNumber, salary);
+        return Objects.hash(id, fullName, dateOfBirth, phoneNumber, salary);
     }
 
     @Override
@@ -54,10 +60,9 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
-                ", gender='" + gender + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", wage=" + salary +
+                ", salary=" + salary +
                 '}';
     }
 }
